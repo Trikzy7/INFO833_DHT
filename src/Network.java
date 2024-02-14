@@ -101,8 +101,14 @@ public class Network {
 
     @Override
     public String toString() {
+        String str = "";
+
+        for (Node node : listNode) {
+            str += "\t" + node.toString() + "\n";
+        }
+
         return "Network{" +
-                "listNode=" + listNode +
-                '}';
+                "listNode=[\n" + str +
+                "]}";
     }
 }
