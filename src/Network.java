@@ -5,9 +5,11 @@ import java.util.Random;
 
 public class Network {
     private ArrayList<Node> listNode;
+    private ArrayList<Event> listEvent;
 
     public Network() {
         this.listNode = new ArrayList<Node>();
+        this.listEvent = new ArrayList<Event>();
     }
 
     public ArrayList<Node> getListNode() {
