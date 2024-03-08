@@ -20,6 +20,29 @@ public class Network {
         this.listNode = listNode;
     }
 
+    public ArrayList<Event> getListEvent() {
+        return listEvent;
+    }
+
+    public void setListEvent(ArrayList<Event> listEvent) {
+        this.listEvent = listEvent;
+    }
+
+    public void makeEvent() {
+        // Tant qu'il y a des events dans la liste
+        while (this.listEvent.size() != 0) {
+
+            // On récupère le premier event de la liste
+            Event event = this.listEvent.get(0);
+
+            // On le supprime de la liste
+            this.listEvent.remove(0);
+
+            // On fait deliver le message sur le node target
+            this.getNodeById(event.getNodeTarget()).deliverMessage(event);
+        }
+    }
+
     public void addNode(Node node) {
 
 //        this.setRandomId(node);
@@ -51,8 +74,12 @@ public class Network {
             // Get a random node in the network
             Node nodeEnter = listNode.get(new Random().nextInt(listNode.size()));
 
+            // Add in the list of event that node to place send a message to the nodeEnter to request to enter the network
+            // -> Send a message
+            node.sendMessage(this, new Event(10, new Message(Message.Protocol.JOIN, Message.Content.REQUEST), nodeEnter.getId()));
+
             // On insert le node en fonction des autres nodes du network
-            nodeEnter.join(this, node);
+//            nodeEnter.join(this, node);
 
             System.out.println("prout");
         }

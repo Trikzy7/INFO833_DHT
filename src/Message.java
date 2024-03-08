@@ -1,9 +1,9 @@
 public class Message {
-    private enum Protocol {
+    public enum Protocol {
         JOIN, LEAVE, MESSAGE
     };
 
-    private enum Content {
+    public enum Content {
         ACK, REQUEST, EXECUTE
     };
 

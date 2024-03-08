@@ -38,14 +38,14 @@ public class Main {
         System.out.println(network);
 
         // Ajout d'un node au network si le network contient déjà plus de 3 node
-        System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node en passant par un autre node ----------");
-        network.addNode(node4);
-        System.out.println(network);
-
-        // Ajout d'un node au network si le network contient déjà plus de 3 node
-        System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node en passant par un autre node ----------");
-        network.addNode(node5);
-        System.out.println(network);
+//        System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node en passant par un autre node ----------");
+//        network.addNode(node4);
+//        System.out.println(network);
+//
+//        // Ajout d'un node au network si le network contient déjà plus de 3 node
+//        System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node en passant par un autre node ----------");
+//        network.addNode(node5);
+//        System.out.println(network);
 
 //
 //        System.out.println("---------- Ajout d'un node quand le network est déjà bien rempli ----------");
