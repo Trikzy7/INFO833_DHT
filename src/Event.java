@@ -3,9 +3,9 @@ public class Event {
     private Message message;
     private int nodeTarget;
 
-    private int nodePlace;
+    private Node nodePlace;
 
-    public Event(int duration, Message message, int nodeTarget, int nodePlace) {
+    public Event(int duration, Message message, int nodeTarget, Node nodePlace) {
         this.duration = duration;
         this.message = message;
         this.nodeTarget = nodeTarget;
@@ -36,11 +36,11 @@ public class Event {
         this.nodeTarget = nodeTarget;
     }
 
-    public int getNodePlace() {
+    public Node getNodePlace() {
         return nodePlace;
     }
 
-    public void setNodePlace(int nodePlace) {
+    public void setNodePlace(Node nodePlace) {
         this.nodePlace = nodePlace;
     }
 }

@@ -39,7 +39,7 @@ public class Network {
             this.listEvent.remove(0);
 
             // On fait deliver le message sur le node target
-            this.getNodeById(event.getNodeTarget()).deliverMessage(event);
+            this.getNodeById(event.getNodeTarget()).deliverMessage(this, event);
         }
     }
 
@@ -74,9 +74,9 @@ public class Network {
             // Get a random node in the network
             Node nodeEnter = listNode.get(new Random().nextInt(listNode.size()));
 
-            // Add in the list of event that node to place send a message to the nodeEnter to request to enter the network
+            // Add in the list of event that nodeToPlace send a message to the nodeEnter to request to enter the network
             // -> Send a message
-            node.sendMessage(this, new Event(10, new Message(Message.Protocol.JOIN, Message.Content.REQUEST), nodeEnter.getId()));
+            node.sendMessage(this, new Event(10, new Message(Message.Protocol.JOIN, Message.Content.REQUEST), nodeEnter.getId(), node));
 
             // On insert le node en fonction des autres nodes du network
 //            nodeEnter.join(this, node);

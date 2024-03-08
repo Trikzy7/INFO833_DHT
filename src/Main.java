@@ -31,8 +31,8 @@ public class Main {
         System.out.println("---------- Ajout d'un node au network si le network contient déjà 1 node ----------");
         network.addNode(node2);
         System.out.println(network);
-
-        // Ajout d'un node au network si le network contient déjà plus de 2 node
+//
+//        // Ajout d'un node au network si le network contient déjà plus de 2 node
         System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node direct a côté du node sur lequel on rentre ----------");
         network.addNode(node3);
         System.out.println(network);
