@@ -1,23 +1,33 @@
-public class Event {
-    private int duration;
+import java.util.Random;
+
+public class Event implements Comparable<Event> {
+    private int latency;
+    private int executionTime;
     private Message message;
     private int nodeTarget;
-
     private Node nodePlace;
 
-    public Event(int duration, Message message, int nodeTarget, Node nodePlace) {
-        this.duration = duration;
+    public Event(Message message, int nodeTarget, Node nodePlace) {
+        this.latency = new Random().nextInt(100) + 1;
         this.message = message;
         this.nodeTarget = nodeTarget;
         this.nodePlace = nodePlace;
     }
 
-    public int getDuration() {
-        return duration;
+    public int getLatency() {
+        return latency;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setLatency(int latency) {
+        this.latency = latency;
+    }
+
+    public int getExecutionTime() {
+        return executionTime;
+    }
+
+    public void setExecutionTime(int executionTime) {
+        this.executionTime = executionTime;
     }
 
     public Message getMessage() {
@@ -42,5 +52,10 @@ public class Event {
 
     public void setNodePlace(Node nodePlace) {
         this.nodePlace = nodePlace;
+    }
+
+    @Override
+    public int compareTo(Event other) {
+        return Integer.compare(this.executionTime, other.executionTime);
     }
 }
