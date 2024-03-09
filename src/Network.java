@@ -1,15 +1,14 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Network {
     private ArrayList<Node> listNode;
-    private ArrayList<Event> listEvent;
+    PriorityQueue<Event> eventQueue; ;
+    private int currentTime;
 
     public Network() {
         this.listNode = new ArrayList<Node>();
-        this.listEvent = new ArrayList<Event>();
+        this.eventQueue = new PriorityQueue<>();
+        this.currentTime = 0;
     }
 
     public ArrayList<Node> getListNode() {
@@ -20,23 +19,31 @@ public class Network {
         this.listNode = listNode;
     }
 
-    public ArrayList<Event> getListEvent() {
-        return listEvent;
+    public PriorityQueue<Event> getEventQueue() {
+        return eventQueue;
     }
 
-    public void setListEvent(ArrayList<Event> listEvent) {
-        this.listEvent = listEvent;
+    public void setEventQueue(PriorityQueue<Event> eventQueue) {
+        this.eventQueue = eventQueue;
+    }
+
+    public int getCurrentTime() {
+        return currentTime;
+    }
+
+    public void setCurrentTime(int currentTime) {
+        this.currentTime = currentTime;
     }
 
     public void makeEvent() {
         // Tant qu'il y a des events dans la liste
-        while (this.listEvent.size() != 0) {
+        while (this.eventQueue.size() != 0) {
 
-            // On récupère le premier event de la liste
-            Event event = this.listEvent.get(0);
+            // On récupère le premier event de la liste et on le supprime
+            Event event = this.eventQueue.poll();
 
-            // On le supprime de la liste
-            this.listEvent.remove(0);
+            // On met à jour le temps actuel
+            this.currentTime = this.currentTime + event.getLatency();
 
             // On fait deliver le message sur le node target
             this.getNodeById(event.getNodeTarget()).deliverMessage(this, event);
@@ -76,7 +83,9 @@ public class Network {
 
             // Add in the list of event that nodeToPlace send a message to the nodeEnter to request to enter the network
             // -> Send a message
-            node.sendMessage(this, new Event(10, new Message(Message.Protocol.JOIN, Message.Content.REQUEST), nodeEnter.getId(), node));
+            node.sendMessage(this, new Event(new Message(Message.Protocol.JOIN, Message.Content.REQUEST), nodeEnter.getId(), node));
+
+            this.makeEvent();
 
             // On insert le node en fonction des autres nodes du network
 //            nodeEnter.join(this, node);

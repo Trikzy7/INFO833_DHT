@@ -74,11 +74,17 @@ public class Node {
          *   - Event event: l'évènement à envoyer
          * */
 
+        // Set the execution time of the event
+        event.setExecutionTime(network.getCurrentTime() + event.getLatency());
+
+        // Set the current time of the network
+//        network.setCurrentTime(network.getCurrentTime() + event.getExecutionTime());
+
         // Ajouter l'évènement à la liste des évènements
-        network.getListEvent().add(event);
+        network.getEventQueue().add(event);
 
         // Le node qui a reçu le message doit traiter le message
-        network.getNodeById(event.getNodeTarget()).deliverMessage(network, event);
+//        network.getNodeById(event.getNodeTarget()).deliverMessage(network, event);
     }
 
     public void deliverMessage(Network network, Event event) {
@@ -136,7 +142,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -151,7 +156,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.ACK
@@ -165,7 +169,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -180,7 +183,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.ACK
@@ -197,7 +199,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -212,7 +213,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.ACK
@@ -226,7 +226,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -241,7 +240,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.ACK
@@ -259,7 +257,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                10,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.REQUEST
@@ -277,7 +274,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -291,7 +287,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -309,7 +304,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -323,7 +317,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                30,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
@@ -340,7 +333,6 @@ public class Node {
                 this.sendMessage(
                         network,
                         new Event(
-                                10,
                                 new Message(
                                         Message.Protocol.JOIN,
                                         Message.Content.REQUEST
