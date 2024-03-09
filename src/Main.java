@@ -10,7 +10,7 @@ public class Main {
         Node node1 = new Node(30);
         Node node2 = new Node(40);
         Node node3 = new Node(35);
-        Node node4 = new Node(22);
+        Node node4 = new Node(37);
         Node node5 = new Node(50);
 
         // Add the nodes to the network
@@ -38,9 +38,9 @@ public class Main {
         System.out.println(network);
 
         // Ajout d'un node au network si le network contient déjà plus de 3 node
-//        System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node en passant par un autre node ----------");
-//        network.addNode(node4);
-//        System.out.println(network);
+        System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node en passant par un autre node ----------");
+        network.addNode(node4);
+        System.out.println(network);
 //
 //        // Ajout d'un node au network si le network contient déjà plus de 3 node
 //        System.out.println("---------- Ajout d'un node au network si le network contient déjà plus de 2 node : Ajout d'un node en passant par un autre node ----------");

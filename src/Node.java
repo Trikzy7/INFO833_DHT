@@ -123,7 +123,9 @@ public class Node {
          */
 
         // Ajouter le node au network (même s'il n'est pas encore relié aux autres)
-        network.getListNode().add(nodePlace);
+        // vérifier si le noeud est déjà dans le réseau
+        if (!network.getListNode().contains(nodePlace))
+            network.getListNode().add(nodePlace);
 
         // Si le node à placer a un id plus petit que le current node
         if (nodePlace.getId() < this.getId()) {
