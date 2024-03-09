@@ -287,6 +287,21 @@ public class Node {
                         )
                 );
 
+                // Il faut que le voisin de gauche envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
+                // que voisin de droite.
+                this.sendMessage(
+                        network,
+                        new Event(
+                                30,
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.ACK
+                                ),
+                                nodePlace.getId(),
+                                network.getNodeById(Collections.min(this.getLeft_neighbours()))
+                        )
+                );
+
                 // On envoie un event pour faire un join execute sur le current node
                 this.sendMessage(
                         network,
@@ -298,6 +313,21 @@ public class Node {
                                 ),
                                 this.getId(),
                                 nodePlace
+                        )
+                );
+
+                // Il faut que current Node envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
+                // que son voisin de gauche.
+                this.sendMessage(
+                        network,
+                        new Event(
+                                30,
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.ACK
+                                ),
+                                nodePlace.getId(),
+                                this
                         )
                 );
             }
@@ -319,6 +349,21 @@ public class Node {
                         )
                 );
 
+                // Il faut que le voisin de gauche envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
+                // que voisin de droite.
+                this.sendMessage(
+                        network,
+                        new Event(
+                                30,
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.ACK
+                                ),
+                                nodePlace.getId(),
+                                network.getNodeById(Collections.min(this.getLeft_neighbours()))
+                        )
+                );
+
                 // On envoie un event pour faire un join execute sur le current node
                 this.sendMessage(
                         network,
@@ -330,6 +375,21 @@ public class Node {
                                 ),
                                 this.getId(),
                                 nodePlace
+                        )
+                );
+
+                // Il faut que current Node envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
+                // que son voisin de gauche.
+                this.sendMessage(
+                        network,
+                        new Event(
+                                30,
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.ACK
+                                ),
+                                nodePlace.getId(),
+                                this
                         )
                 );
             }
@@ -374,15 +434,15 @@ public class Node {
         // Si le nodePlaceId < currentNodeId
         if (nodePlace.getId() < this.getId()) {
             // Mettre currentNode comme son voisin de gauche
-            nodePlace.setLeft_neighbours(
-                    new ArrayList<>(Collections.singleton(this.getId()))
+            this.setRight_neighbours(
+                    new ArrayList<>(Collections.singleton(nodePlace.getId()))
             );
         }
         // Si le nodePlaceId > currentNodeId
         else {
             // Mettre currentNode comme son voisin de droite
-            nodePlace.setRight_neighbours(
-                    new ArrayList<>(Collections.singleton(this.getId()))
+            this.setLeft_neighbours(
+                    new ArrayList<>(Collections.singleton(nodePlace.getId()))
             );
         }
     }
