@@ -56,14 +56,20 @@ public class Node {
         /*
          * GOAL : Vérifier si le node est le plus petit du réseau
          * */
-        return Collections.min(this.getLeft_neighbours()) > this.getId() && Collections.max(this.getRight_neighbours()) > this.getId();
+        return Collections.min(this.getLeft_neighbours()) > this.getId() &&
+                Collections.max(this.getRight_neighbours()) > this.getId() &&
+                this.getLeft_neighbours().size() != 0 &&
+                this.getRight_neighbours().size() != 0;
     }
 
     public boolean isMaxOfNetwork() {
         /*
          * GOAL : Vérifier si le node est le plus grand du réseau
          * */
-        return Collections.min(this.getLeft_neighbours()) < this.getId() && Collections.max(this.getRight_neighbours()) < this.getId();
+        return Collections.min(this.getLeft_neighbours()) < this.getId() &&
+                Collections.max(this.getRight_neighbours()) < this.getId() &&
+                this.getLeft_neighbours().size() != 0 &&
+                this.getRight_neighbours().size() != 0;
     }
 
     public void sendMessage(Network network, Event event) {
@@ -97,6 +103,8 @@ public class Node {
         if (event.getMessage().getProtocol() == Message.Protocol.JOIN) {
             switch (event.getMessage().getContent()) {
                 case REQUEST:
+                    System.out.println("REQUEST : " + this.getId() + " -> " + event.getNodePlace().getId());
+
                     // Si le message est une demande de join
                     this.joinRequest(network, event.getNodePlace());;
                     // On accepte la demande
@@ -105,12 +113,14 @@ public class Node {
 
                     break;
                 case ACK:
+                    System.out.println("ACK : " + this.getId() + " -> " + event.getNodePlace().getId());
                     // Si le message est un ack
                     // On ajoute le node à la liste des nodes
                     this.joinAck(network, event.getNodePlace());
 
                     break;
                 case EXECUTE:
+                    System.out.println("EXECUTE : " + this.getId() + " -> " + event.getNodePlace().getId());
                     // Si le message est un execute
                     this.joinExecute(network, event.getNodePlace());
                     // On exécute le message
@@ -432,16 +442,16 @@ public class Node {
     }
 
     public void joinAck(Network network, Node nodePlace){
-        System.out.println("ACK : " + this.getId() + " -> " + nodePlace.getId());
-        System.out.println("nodePlace : " +nodePlace + " " + nodePlace.isMaxOfNetwork() + nodePlace.isMinOfNetwork());
+//        System.out.println("ACK : " + this.getId() + " -> " + nodePlace.getId());
+//        System.out.println("nodePlace : " +nodePlace + " " + nodePlace.isMaxOfNetwork() + nodePlace.isMinOfNetwork());
         if (nodePlace.isMaxOfNetwork()
-                && (this.getId() > nodePlace.getId() || this.getId() == Collections.min(nodePlace.getLeft_neighbours()))){
+                && (this.getId() > nodePlace.getId() || this.getId() <= Collections.min(nodePlace.getLeft_neighbours()))){
             System.out.println("max");
             this.setRight_neighbours(
                     new ArrayList<>(Collections.singleton(nodePlace.getId()))
             );
         } else if (nodePlace.isMinOfNetwork()
-                && (this.getId() < nodePlace.getId() || this.getId() == Collections.max(nodePlace.getRight_neighbours()))){
+                && (this.getId() < nodePlace.getId() || this.getId() >= Collections.max(nodePlace.getRight_neighbours()))){
             System.out.println("min");
             this.setLeft_neighbours(
                     new ArrayList<>(Collections.singleton(nodePlace.getId()))
