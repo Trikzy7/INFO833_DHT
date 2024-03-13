@@ -140,19 +140,6 @@ public class Node {
             // Si le current Node est le min du network
             if (this.isMinOfNetwork()) {
 
-                // Envoyer un message à son voisin de droite pour qu'il fasse un join execute avec le nodeToPlace
-                this.sendMessage(
-                        network,
-                        new Event(
-                                new Message(
-                                        Message.Protocol.JOIN,
-                                        Message.Content.EXECUTE
-                                ),
-                                Collections.max(this.getRight_neighbours()),
-                                nodePlace
-                        )
-                );
-
                 // Il faut que le voisin de droite envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
                 // que voisin de gauche de voisin de droite.
                 this.sendMessage(
@@ -166,8 +153,7 @@ public class Node {
                                 network.getNodeById(Collections.max(this.getRight_neighbours()))
                         )
                 );
-
-                // On envoie un event pour faire un join execute sur le current node
+                // Envoyer un message à son voisin de droite pour qu'il fasse un join execute avec le nodeToPlace
                 this.sendMessage(
                         network,
                         new Event(
@@ -175,7 +161,7 @@ public class Node {
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
                                 ),
-                                this.getId(),
+                                Collections.max(this.getRight_neighbours()),
                                 nodePlace
                         )
                 );
@@ -193,23 +179,24 @@ public class Node {
                                 this
                         )
                 );
+
+                // On envoie un event pour faire un join execute sur le current node
+                this.sendMessage(
+                        network,
+                        new Event(
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.EXECUTE
+                                ),
+                                this.getId(),
+                                nodePlace
+                        )
+                );
+
             }
             // Aller voir dans les voisins de droites (les voisins plus petits que le current node)
             // -> on prends le plus proche de lui (le max de la liste) : cas où le id_current_node > node_à_placer > max(right_neighbours)
             else if (nodePlace.getId() > Collections.max(this.getRight_neighbours())) {
-                // Envoyer un message à son voisin de droite pour qu'il fasse un join execute avec le nodeToPlace
-                this.sendMessage(
-                        network,
-                        new Event(
-                                new Message(
-                                        Message.Protocol.JOIN,
-                                        Message.Content.EXECUTE
-                                ),
-                                Collections.max(this.getRight_neighbours()),
-                                nodePlace
-                        )
-                );
-
                 // Il faut que le voisin de droite envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
                 // que voisin de gauche de voisin de droite.
                 this.sendMessage(
@@ -223,8 +210,7 @@ public class Node {
                                 network.getNodeById(Collections.max(this.getRight_neighbours()))
                         )
                 );
-
-                // On envoie un event pour faire un join execute sur le current node
+                // Envoyer un message à son voisin de droite pour qu'il fasse un join execute avec le nodeToPlace
                 this.sendMessage(
                         network,
                         new Event(
@@ -232,7 +218,7 @@ public class Node {
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
                                 ),
-                                this.getId(),
+                                Collections.max(this.getRight_neighbours()),
                                 nodePlace
                         )
                 );
@@ -250,6 +236,20 @@ public class Node {
                                 this
                         )
                 );
+
+                // On envoie un event pour faire un join execute sur le current node
+                this.sendMessage(
+                        network,
+                        new Event(
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.EXECUTE
+                                ),
+                                this.getId(),
+                                nodePlace
+                        )
+                );
+
 
             }
             // on prends dans ses voisins de droite le plus proche de lui (le max de la liste) : cas où le node_à_placer < max(right_neighbours) < id_current_node
@@ -272,19 +272,6 @@ public class Node {
             System.out.println("PLUS GRAND");
 
             if (this.isMaxOfNetwork()) {
-                // Envoyer un message à son voisin de gauche pour qu'il fasse un join execute avec le nodeToPlace
-                this.sendMessage(
-                        network,
-                        new Event(
-                                new Message(
-                                        Message.Protocol.JOIN,
-                                        Message.Content.EXECUTE
-                                ),
-                                Collections.min(this.getLeft_neighbours()),
-                                nodePlace
-                        )
-                );
-
                 // Il faut que le voisin de gauche envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
                 // que voisin de droite.
                 this.sendMessage(
@@ -298,8 +285,7 @@ public class Node {
                                 network.getNodeById(Collections.min(this.getLeft_neighbours()))
                         )
                 );
-
-                // On envoie un event pour faire un join execute sur le current node
+                // Envoyer un message à son voisin de gauche pour qu'il fasse un join execute avec le nodeToPlace
                 this.sendMessage(
                         network,
                         new Event(
@@ -307,7 +293,7 @@ public class Node {
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
                                 ),
-                                this.getId(),
+                                Collections.min(this.getLeft_neighbours()),
                                 nodePlace
                         )
                 );
@@ -325,24 +311,25 @@ public class Node {
                                 this
                         )
                 );
+
+                // On envoie un event pour faire un join execute sur le current node
+                this.sendMessage(
+                        network,
+                        new Event(
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.EXECUTE
+                                ),
+                                this.getId(),
+                                nodePlace
+                        )
+                );
+
             }
 
             // Aller voir dans les voisins de gauches (les voisins plus grands que le current node)
             // -> on prends le plus proche de lui (le min de la liste) : cas où le min(right_neighbours) > node_à_placer > id_current_node
             else if (nodePlace.getId() < Collections.min(this.getLeft_neighbours())) {
-                // Envoyer un message à son voisin de gauche pour qu'il fasse un join execute avec le nodeToPlace
-                this.sendMessage(
-                        network,
-                        new Event(
-                                new Message(
-                                        Message.Protocol.JOIN,
-                                        Message.Content.EXECUTE
-                                ),
-                                Collections.min(this.getLeft_neighbours()),
-                                nodePlace
-                        )
-                );
-
                 // Il faut que le voisin de gauche envoie un ACK au nodeToPlace pour lui dire que nodeToPlace a bien été ajouté en tant
                 // que voisin de droite.
                 this.sendMessage(
@@ -356,8 +343,7 @@ public class Node {
                                 network.getNodeById(Collections.min(this.getLeft_neighbours()))
                         )
                 );
-
-                // On envoie un event pour faire un join execute sur le current node
+                // Envoyer un message à son voisin de gauche pour qu'il fasse un join execute avec le nodeToPlace
                 this.sendMessage(
                         network,
                         new Event(
@@ -365,7 +351,7 @@ public class Node {
                                         Message.Protocol.JOIN,
                                         Message.Content.EXECUTE
                                 ),
-                                this.getId(),
+                                Collections.min(this.getLeft_neighbours()),
                                 nodePlace
                         )
                 );
@@ -383,6 +369,20 @@ public class Node {
                                 this
                         )
                 );
+
+                // On envoie un event pour faire un join execute sur le current node
+                this.sendMessage(
+                        network,
+                        new Event(
+                                new Message(
+                                        Message.Protocol.JOIN,
+                                        Message.Content.EXECUTE
+                                ),
+                                this.getId(),
+                                nodePlace
+                        )
+                );
+
             }
             // on prends dans ses voisins de gauche le plus proche de lui (le min de la liste) : cas où le node_à_placer > min(left_neighbours) > id_current_node
             // => on envoie de join au voisin de gauche
@@ -404,36 +404,64 @@ public class Node {
     }
 
     public void joinExecute(Network network, Node nodePlace) {
-        // Si le nodePlaceId < currentNodeId
-        if (nodePlace.getId() < this.getId()) {
-            // Mettre le nodeToPlace comme son voisin de droite
-            this.setRight_neighbours(
-                        new ArrayList<>(Collections.singleton(nodePlace.getId() ))
-                );
-        }
-        // Si le nodePlaceId > currentNodeId
-        else {
-            // Mettre le nodeToPlace comme son voisin de gauche
+        if (this.isMaxOfNetwork() && (this.getId() < nodePlace.getId() || nodePlace.getId() < Collections.min(this.getLeft_neighbours()))) {
             this.setLeft_neighbours(
-                        new ArrayList<>(Collections.singleton(nodePlace.getId() ))
-                );
+                    new ArrayList<>(Collections.singleton(nodePlace.getId()))
+            );
+        } else if (this.isMinOfNetwork() && (this.getId() > nodePlace.getId()) || nodePlace.getId() > Collections.max(this.getRight_neighbours())) {
+            this.setRight_neighbours(
+                    new ArrayList<>(Collections.singleton(nodePlace.getId()))
+            );
+        }
+        else {
+            // Si le nodePlaceId < currentNodeId
+            if (nodePlace.getId() < this.getId()) {
+                // Mettre le nodeToPlace comme son voisin de droite
+                this.setRight_neighbours(
+                            new ArrayList<>(Collections.singleton(nodePlace.getId() ))
+                    );
+            }
+            // Si le nodePlaceId > currentNodeId
+            else {
+                // Mettre le nodeToPlace comme son voisin de gauche
+                this.setLeft_neighbours(
+                            new ArrayList<>(Collections.singleton(nodePlace.getId() ))
+                    );
+            }
         }
     }
 
     public void joinAck(Network network, Node nodePlace){
-        // Si le nodePlaceId < currentNodeId
-        if (nodePlace.getId() < this.getId()) {
-            // Mettre currentNode comme son voisin de gauche
+        System.out.println("ACK : " + this.getId() + " -> " + nodePlace.getId());
+        System.out.println("nodePlace : " +nodePlace + " " + nodePlace.isMaxOfNetwork() + nodePlace.isMinOfNetwork());
+        if (nodePlace.isMaxOfNetwork()
+                && (this.getId() > nodePlace.getId() || this.getId() == Collections.min(nodePlace.getLeft_neighbours()))){
+            System.out.println("max");
             this.setRight_neighbours(
                     new ArrayList<>(Collections.singleton(nodePlace.getId()))
             );
-        }
-        // Si le nodePlaceId > currentNodeId
-        else {
-            // Mettre currentNode comme son voisin de droite
+        } else if (nodePlace.isMinOfNetwork()
+                && (this.getId() < nodePlace.getId() || this.getId() == Collections.max(nodePlace.getRight_neighbours()))){
+            System.out.println("min");
             this.setLeft_neighbours(
                     new ArrayList<>(Collections.singleton(nodePlace.getId()))
             );
+        }
+        else {
+            // Si le nodePlaceId < currentNodeId
+            if (nodePlace.getId() < this.getId()) {
+                // Mettre currentNode comme son voisin de gauche
+                this.setRight_neighbours(
+                        new ArrayList<>(Collections.singleton(nodePlace.getId()))
+                );
+            }
+            // Si le nodePlaceId > currentNodeId
+            else {
+                // Mettre currentNode comme son voisin de droite
+                this.setLeft_neighbours(
+                        new ArrayList<>(Collections.singleton(nodePlace.getId()))
+                );
+            }
         }
     }
 

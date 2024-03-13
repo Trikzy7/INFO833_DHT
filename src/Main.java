@@ -10,7 +10,7 @@ public class Main {
         Node node1 = new Node(30);
         Node node2 = new Node(40);
         Node node3 = new Node(35);
-        Node node4 = new Node(37);
+        Node node4 = new Node(50);
         Node node5 = new Node(50);
 
         // Add the nodes to the network
