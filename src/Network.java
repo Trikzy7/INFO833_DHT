@@ -95,7 +95,19 @@ public class Network {
     }
 
     public void removeNode(Node node) {
-        this.listNode.remove(node);
+        node.sendMessage(
+                this,
+                new Event(
+                        new Message(
+                                Message.Protocol.LEAVE,
+                                Message.Content.REQUEST),
+                        node.getId(),
+                        node
+                )
+        );
+        this.makeEvent();
+        this.getListNode().remove(node);
+        System.out.println("prout");
     }
 
     public void setRandomId(Node node) {

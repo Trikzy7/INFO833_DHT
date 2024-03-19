@@ -126,7 +126,33 @@ public class Node {
                     // On exécute le message
                     break;
             }
+        }
+        else if (event.getMessage().getProtocol() == Message.Protocol.LEAVE){
+            switch (event.getMessage().getContent()) {
+                case REQUEST:
+                    System.out.println("REQUEST : " + this.getId() + " -> " + event.getNodePlace().getId());
 
+                    // Si le message est une demande de leave
+                    this.leaveRequest(network, event.getNodePlace());;
+                    // On accepte la demande
+
+                    // On ajoute le node à la liste des nodes
+
+                    break;
+                case ACK:
+                    System.out.println("ACK : " + this.getId() + " -> " + event.getNodePlace().getId());
+                    // Si le message est un ack
+                    // On enleve le node à la liste des nodes
+                    this.leaveAck(network, event.getNodePlace());
+
+                    break;
+                case EXECUTE:
+                    System.out.println("EXECUTE : " + this.getId() + " -> " + event.getNodePlace().getId());
+                    // Si le message est un execute
+                    this.leaveExecute(network, event.getNodePlace());
+                    // On exécute le message
+                    break;
+            }
         }
 
     }
@@ -474,6 +500,75 @@ public class Node {
             }
         }
     }
+
+    public void leaveRequest(Network network, Node nodeLeave){
+        // Send a request leave message to the right neighbour depuis le nodeLeave
+        this.sendMessage(
+                network,
+                new Event(
+                        new Message(
+                                Message.Protocol.LEAVE,
+                                Message.Content.EXECUTE
+                        ),
+                        nodeLeave.getId(),
+                        network.getNodeById(Collections.min(nodeLeave.getLeft_neighbours()))
+                )
+        );
+        this.sendMessage(
+                network,
+                new Event(
+                        new Message(
+                                Message.Protocol.LEAVE,
+                                Message.Content.EXECUTE
+                        ),
+                        nodeLeave.getId(),
+                        network.getNodeById(Collections.max(nodeLeave.getRight_neighbours()))
+                )
+        );
+    }
+    public void leaveExecute(Network network, Node nodeLeave){
+        if (this.isMaxOfNetwork() || this.isMinOfNetwork()){
+            if (nodeLeave.getId() < Collections.max(this.getRight_neighbours())){
+                nodeLeave.setRight_neighbours(
+                        new ArrayList<>(Collections.singleton(Collections.max(this.getRight_neighbours())))
+                );
+            }
+            else {
+                nodeLeave.setLeft_neighbours(
+                        new ArrayList<>(Collections.singleton(Collections.min(this.getLeft_neighbours())))
+                );
+            }
+        }
+        else {
+
+            if (nodeLeave.getId() > this.getId()) {
+                nodeLeave.setRight_neighbours(
+                        new ArrayList<>(Collections.singleton(Collections.max(this.getRight_neighbours())))
+                );
+            }
+            else {
+                nodeLeave.setLeft_neighbours(
+                        new ArrayList<>(Collections.singleton(Collections.min(this.getLeft_neighbours())))
+                );
+            }
+        }
+    }
+
+    public void leaveAck(Network network, Node nodeLeave){
+        if (nodeLeave.getId() < this.getId()) {
+            // Mettre le voisin de gauche à vide
+            nodeLeave.setLeft_neighbours(
+                    new ArrayList<>()
+            );
+        }
+        else {
+            // Mettre le voisin de droite à vide
+            nodeLeave.setRight_neighbours(
+                    new ArrayList<>()
+            );
+        }
+    }
+
 
 //    public void join(Network network, Node node) {
 //        /*
